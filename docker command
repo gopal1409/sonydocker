@@ -1,0 +1,3 @@
+deploy our first container
+16  docker container run --publish 80:80 --detach nginx
+   17  docker container ls
