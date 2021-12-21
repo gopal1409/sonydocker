@@ -1,0 +1,16 @@
+272  mkdir /mnt/data
+  273  cd /etc/docker/
+  274  vi daemon.json
+Press Esc Key and Press i
+copy the below content
+{
+        "data-root": "/mnt/data"
+}
+
+Press Esc then Press :wq
+
+systemctl stop docker
+systemctl start docker
+systemctl status docker
+cd /mnt/data
+ls
