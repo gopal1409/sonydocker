@@ -51,6 +51,7 @@ once copied Press Esc :wq
 
 then to build the image
 docker build -t chatapp .
+docker images
 
 
 
