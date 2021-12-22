@@ -12,3 +12,6 @@ we will install jdk and maven
   373  cd target/
   374  ls
   375  cd ..
+to run the jar file
+java -jar target/websocket-demo-0.0.1-SNAPSHOT.jar
+mvn spring-boot:run
