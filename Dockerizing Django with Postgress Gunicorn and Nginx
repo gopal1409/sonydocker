@@ -11,4 +11,10 @@ We will install the python 3.9.6 version
 then press ctr d to come out of the python promopt
 then we will install pip utility in python
  431  apt install python3-pip
+  436  pip install virtualenv
+  we need to install docker-compose
+   439  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  440  sudo chmod +x /usr/local/bin/docker-compose
+  441  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
 
