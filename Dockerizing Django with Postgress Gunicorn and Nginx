@@ -79,6 +79,15 @@ DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
 go to this directory
 cd /app/hello_django
 vi settings.py
+# SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = 'django-insecure-2z_3#*21$lyhrxj5=qs%dxct)4x-bbi+k8ne)8txsw0z*af#$8'
+SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = True
+DEBUG = int(os.environ.get("DEBUG",default=0))
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
 
 
 
