@@ -76,5 +76,9 @@ DEBUG=1
 SECRET_KEY=foo
 DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
 
+go to this directory
+cd /app/hello_django
+vi settings.py
+
 
 
