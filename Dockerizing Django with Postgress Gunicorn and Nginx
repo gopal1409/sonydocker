@@ -16,5 +16,20 @@ then we will install pip utility in python
    439  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   440  sudo chmod +x /usr/local/bin/docker-compose
   441  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  
+  Project Setup
+  Create a new Project Directory with a new Django Project
+  445  mkdir django-on-docker
+  446  cd django-on-docker/
+  447  mkdir app && cd app
+  448  apt install tree
+  449  python3.9 -m venv env
+  450  source env/bin/activate
+  451  pip install django==3.2.6
+  452  python3.9 -m pip install --upgrade pip
+  453  django-admin.py startproject hello_django .
+  454  python manage.py migrate
+  455  python manage.py runserver
+
 
 
