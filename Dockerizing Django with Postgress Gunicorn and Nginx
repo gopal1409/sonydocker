@@ -94,6 +94,9 @@ do cd ..
 then if you do ls
 it will show you docker-compose.yml file and an app directory
 
+finally build it and run the app using docker-compsoe command
+ 496  docker-compose build
+  497  docker-compose up -d
 
 
 
