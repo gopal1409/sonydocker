@@ -15,3 +15,6 @@ we will install jdk and maven
 to run the jar file
 java -jar target/websocket-demo-0.0.1-SNAPSHOT.jar
 mvn spring-boot:run
+once your application is running you can copy the public ip : 8080 in a browser and you can see the app. 
+then press control c
+to shutdown the app
