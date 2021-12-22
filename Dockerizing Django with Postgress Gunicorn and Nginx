@@ -54,5 +54,27 @@ RUN pip install -r requirements.txt
 
 #copy the project
 COPY . .
+creat the docker-compose.yml
+
+ vi docker-compose.yml
+ 
+ version: '3.8'
+services:
+  web:
+    build: ./app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+
+then create the env file
+vi .env.dev
+DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+
 
 
