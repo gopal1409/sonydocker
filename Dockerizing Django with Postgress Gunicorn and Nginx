@@ -88,6 +88,12 @@ DEBUG = int(os.environ.get("DEBUG",default=0))
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
+once updated setting.py
+do cd ..
+do cd ..
+then if you do ls
+it will show you docker-compose.yml file and an app directory
+
 
 
 
