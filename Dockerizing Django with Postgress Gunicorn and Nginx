@@ -9,3 +9,6 @@ We will install the python 3.9.6 version
   426  apt install python 3.9
   427  python3.9
 then press ctr d to come out of the python promopt
+then we will install pip utility in python
+ 431  apt install python3-pip
+
