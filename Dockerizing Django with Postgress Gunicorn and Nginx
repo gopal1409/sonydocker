@@ -2,3 +2,10 @@ Dependencies
 1. Django v3.2.6
 2. Docker v20.10.8
 3. Python v3.9.6
+We will install the python 3.9.6 version
+ 423  apt install software-properties-common
+  424  add-apt-repository ppa:deadsnakes/ppa
+  425  apt update
+  426  apt install python 3.9
+  427  python3.9
+then press ctr d to come out of the python promopt
