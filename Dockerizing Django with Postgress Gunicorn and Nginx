@@ -30,6 +30,8 @@ then we will install pip utility in python
   453  django-admin.py startproject hello_django .
   454  python manage.py migrate
   455  python manage.py runserver
-
-
+create a requirement.txt file and we will put Django as Depndencies. 
+466  vi requirements.txt
+#inside this file 
+Django==3.2.6
 
