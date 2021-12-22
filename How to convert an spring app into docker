@@ -53,5 +53,9 @@ then to build the image
 docker build -t chatapp .
 docker images
 
+run the chat app using docker image
+docker run -d -p 8080:8080 chatapp
+docker ps
+
 
 
