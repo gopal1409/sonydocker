@@ -18,3 +18,39 @@ mvn spring-boot:run
 once your application is running you can copy the public ip : 8080 in a browser and you can see the app. 
 then press control c
 to shutdown the app
+we are now going to convert the app into an container based image
+to do the same we will create a docker file
+
+vi dockerfile
+the Press Esc i
+copy the below content
+
+#we need to start with a base image which contains
+FROM openjdk:11
+
+#add maintainer information
+MAINTAINER John Cena <john@gmail.com>
+
+#add a volume pointing to /tmp
+VOLUME /tmp
+
+#make port 8080 avaialbe to the world outside the contianer.
+EXPOSE 8080
+
+#the application jar file
+
+ARG JAR_FILE=target/websocket-demo-0.0.1-SNAPSHOT.jar
+
+#add the application jar to the container
+ADD ${JAR_FILE} websocket-demo.jar
+
+#run the jar file
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/websocket-demo.jar"]
+
+once copied Press Esc :wq
+
+then to build the image
+docker build -t chatapp .
+
+
+
