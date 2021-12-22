@@ -1,0 +1,14 @@
+we will install jdk and maven
+363  apt install default-jdk
+  364  java --version
+  365  apt install maven
+  366  mvn -version
+  367  git clone https://github.com/gopal1409/springboot-chat-app.git
+  368  ls
+  369  cd springboot-chat-app/
+  370  ls
+  371  mvn clean package
+  372  ls
+  373  cd target/
+  374  ls
+  375  cd ..
