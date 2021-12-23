@@ -185,5 +185,18 @@ COPY . .
 
 
 
+next we will build the image with postgress
+ 552  docker-compose build
+  553  docker-compose up -d
+  554  docker ps
+  Run the migration
+  555  docker-compose exec web python manage.py migrate --noinput
+  Ensure the default Django table is created
+  556  docker-compose exec db psql --username=hello_django --dbname=hello_django_dev
+  once you login to the database. 
+  \l
+  \c hello_django_dev
+  \dt
+  \q
 
 
