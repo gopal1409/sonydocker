@@ -354,3 +354,7 @@ vi .env.prod.db
 POSTGRES_USER=hello_django
 POSTGRES_PASSWORD=hello_django
 POSTGRES_DB=hello_django_prod
+
+docker-compose down
+640  docker-compose -f docker-compose.prod.yml up -d --build
+
