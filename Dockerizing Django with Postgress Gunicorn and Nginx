@@ -250,7 +250,7 @@ RUN pip install -r requirements.txt
 #copy the project
 COPY . .
 #we need to run the entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
 then you need to do cd ..
 vi .env.dev
