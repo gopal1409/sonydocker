@@ -359,6 +359,7 @@ docker-compose down
 640  docker-compose -f docker-compose.prod.yml up -d --build
 
 For production environment the entrypoint will be different and dockerfile also need to be changed. 
+cd app
  646  cp entrypoint.sh entrypoint.prod.sh
 vi dockerfile.prod
 ###########
