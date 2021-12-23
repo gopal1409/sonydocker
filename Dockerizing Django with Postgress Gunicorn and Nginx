@@ -270,6 +270,8 @@ i want to rebuild the django image frequently withought compiling my database. a
   588  docker run -d -p 8006:8000 -e "SECRET_KEY=test" -e "DEBUG=1" -e "DJANGO_ALLOWED_HOSTS=*" hello_dejango python /usr/src/app/manage.py runserver 0.0.0.0:8000
     590  docker ps
   591  docker stop 3fc
+  
+  second you may want to comment out the database flush and migrate command in the entry point.sh so that they should not run on every start or restart
 
 
 
