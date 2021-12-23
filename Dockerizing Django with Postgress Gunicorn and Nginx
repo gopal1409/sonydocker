@@ -432,3 +432,28 @@ USER app
 
 # run entrypoint.prod.sh
 ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+
+Now we need to modify the docker-compose.prod file to use thsi new docker file and entrpoint file
+660  cd ..
+  661  vi docker-compose.prod.yml
+version: '3.8'
+services:
+  web:
+    build: ./app
+    dockerfile: docker.prod
+    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    ports:
+     - 8000:8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env.prod.db
+volumes:
+  postgres_data:
+
