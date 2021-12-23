@@ -152,6 +152,37 @@ DATABASES = {
     }
 }
 
+we need to upgrade the requirement.txt file to install postgree driver
+cd ..
+vi requirements.txt
+Django==3.2.6
+psycopg2-binary==2.9.1
+
+then we need to upgrade the docker file also
+we need to install psycopg2 dependencies
+vi dockerfile
+
+#pull the offcial base image of python
+FROM python:3.9.6-alpine
+#set the working directory
+WORKDIR /usr/src/app
+
+#set the environment variable
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+#install psycopg2 dependencies
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
+#install dependencies
+
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+#copy the project
+COPY . .
+
 
 
 
