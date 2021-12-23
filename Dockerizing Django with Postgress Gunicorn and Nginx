@@ -312,5 +312,47 @@ then build my container and started the contianer i want to execute flush and mi
 gunicorn==20.1.0
 psycopg2-binary==2.9.
   614  cd ..
-
+till know we work on a development environment now we want to create a prod environment with Gunicorn that also withought disturbing the existing environment. 
  
+622  cp docker-compose.yml docker-compose.prod.yml
+  623  ls
+  624  vi docker-compose.prod.yml
+version: '3.8'
+services:
+  web:
+    build: ./app
+    command: gunicorn hello_django.wsgi.application --bind 0.0.0.0:8000
+    #volumes:
+      - ./app/:/usr/src/app/
+    ports:
+     - 8000:8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env.prod.db
+volumes:
+  postgres_data:
+
+create the prod file
+vi .env.prod
+DEBUG=1
+SECRET_KEY=change_me
+DJANGO_ALLOWED_HOSTS=localhost 18.188.214.57 [::1]
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=hello_django_prod
+SQL_USER=hello_django
+SQL_PASSWORD=hello_django
+SQL_HOST=db
+SQL_PORT=5432
+DATABASE=postgres
+
+vi .env.prod.db
+POSTGRES_USER=hello_django
+POSTGRES_PASSWORD=hello_django
+POSTGRES_DB=hello_django_prod
