@@ -267,7 +267,7 @@ DATABASE=postgres
 
 i want to rebuild the django image frequently withought compiling my database. and run it
 587  docker build -f ./app/dockerfile -t hello_dejango:latest ./app
-  588  docker run -d -p 80006:8000 -e "SECRET_KEY=test" -e "DEBUG=1" -e "DJANGO_ALLOWED_HOSTS=*" hello_dejango python /usr/src/app/manage.py runserver 0.0.0.0:8000
+  588  docker run -d -p 8006:8000 -e "SECRET_KEY=test" -e "DEBUG=1" -e "DJANGO_ALLOWED_HOSTS=*" hello_dejango python /usr/src/app/manage.py runserver 0.0.0.0:8000
     590  docker ps
   591  docker stop 3fc
 
