@@ -274,5 +274,33 @@ i want to rebuild the django image frequently withought compiling my database. a
   second you may want to comment out the database flush and migrate command in the entry point.sh so that they should not run on every start or restart
 
 
+ 599  cd app
+  600  vi entrypoint.sh
+#!/bin/sh
 
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
+
+    while ! nc -z $SQL_HOST $SQL_PORT; do
+      sleep 0.1
+    done
+
+    echo "PostgreSQL started"
+fi
+
+#python manage.py flush --no-input
+#python manage.py migrate
+
+exec "$@"
+
+603  cd ..
+  604  docker-compose build
+  605  docker-compose up -d
+  606  docker ps
+after i comment the flush and migration. 
+then build my container and started the contianer i want to execute flush and migration
+
+609  docker-compose exec web python manage.py flush --no-input
+  610  docker-compose exec web python manage.py migrate
  
