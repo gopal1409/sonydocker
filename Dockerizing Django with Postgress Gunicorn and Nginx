@@ -97,6 +97,44 @@ it will show you docker-compose.yml file and an app directory
 finally build it and run the app using docker-compsoe command
  496  docker-compose build
   497  docker-compose up -d
+  
+  we will update the docker compose file with database
+  vi docker-compose.yml
+version: '3.8'
+services:
+  web:
+    build: ./app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data: /var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+volumes:
+  postgres_data:
+
+then we will modify the environment varaible
+vi .env.dev
+DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 18.188.214.57 [::1]
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=hello_django_dev
+SQL_USER=hello_django
+SQL_PASSWORD=hello_django
+SQL_HOST=db
+SQL_PORT=5432
 
 
 
