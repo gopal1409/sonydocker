@@ -61,7 +61,9 @@ creat the docker-compose.yml
  version: '3.8'
 services:
   web:
-    build: ./app
+    build:
+      context: ./app
+      dockerfile: dockerfile.prod
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/
