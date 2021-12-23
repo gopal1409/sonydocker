@@ -303,4 +303,14 @@ then build my container and started the contianer i want to execute flush and mi
 
 609  docker-compose exec web python manage.py flush --no-input
   610  docker-compose exec web python manage.py migrate
+  
+  Gunicorn
+  we want to create an production Environment . to do the same lets add Gunicor. which will give me an WSGI server. 
+  612  cd app
+  613  vi requirements.txt
+  Django==3.2.6
+gunicorn==20.1.0
+psycopg2-binary==2.9.
+  614  cd ..
+
  
