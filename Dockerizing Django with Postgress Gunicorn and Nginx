@@ -199,4 +199,70 @@ next we will build the image with postgress
   \dt
   \q
 
+But before we apply the migration I want to check the helth of the database. 
+to do the same we will create an entrypoint.sh and check the health of db before i migrate. 
+cd /app
+ vi entrypoint.sh
+ #!/bin/sh
 
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
+
+    while ! nc -z $SQL_HOST $SQL_PORT; do
+      sleep 0.1
+    done
+
+    echo "PostgreSQL started"
+fi
+
+python manage.py flush --no-input
+python manage.py migrate
+
+exec "$@"
+
+chmod +x entrypoint.sh
+
+then we will again need to modify the docker file to inslude this entry point
+vi dockerfile
+
+#pull the offcial base image of python
+FROM python:3.9.6-alpine
+#set the working directory
+WORKDIR /usr/src/app
+
+#set the environment variable
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+#install psycopg2 dependencies
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
+#install dependencies
+
+RUN pip install --upgrade pip
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+#copy the project
+COPY . .
+#we need to run the entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"
+
+then you need to do cd ..
+vi .env.dev
+DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 18.188.214.57 [::1]
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=hello_django_dev
+SQL_USER=hello_django
+SQL_PASSWORD=hello_django
+SQL_HOST=db
+SQL_PORT=5432
+DATABASE=postgres
+
+ 
