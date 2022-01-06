@@ -1,0 +1,13 @@
+ 106  apt install unzip
+  107  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  108  unzip awscliv2.zip
+  109  sudo ./aws/install
+  110  curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+  111  sudo mv /tmp/eksctl /usr/local/bin
+  112  eksctl version
+  113  curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+  114  kubectl
+  115  chmod +x ./kubectl
+  116  mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+  117  echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+  118  kubectl
