@@ -2,10 +2,13 @@
 apiVersion: v1 #all the communication to your k8s cluster happen through api. 
 kind: Pod #which api i want to execute as of now we are deploying images so i want to create pod api Service Deployment Per cronj
 metadata:
-  name: nginx #when it is creating the pod object i need to define the name of the pod using meta data. 
+  name: nginx #when it is creating the pod object i need to define the name of the pod using meta data.
+  labels:
+    app: nginx 
 spec: #inside the pod i want to deploy my image as container
   containers:
   - name: nginx 
     image: stacksimplify/kubenginx:1.0.0 #which image it should use to deploy the container
     ports:
     - containerPort: 80 #
+  
