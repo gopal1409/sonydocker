@@ -17,4 +17,4 @@
 put the access key and secret access key and region will be us-east-2 and output format will be json
 
 now we will create the eks cluster(change the name from gopal to your name)
-eksctl create cluster --name=gopal-demo-eks --nodes=1 --nodes-type=t2.medium
+eksctl create cluster --name=gopal-demo-eks --nodes=1 --node-type=t2.medium
