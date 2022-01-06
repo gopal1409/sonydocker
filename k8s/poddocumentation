@@ -1,0 +1,12 @@
+ 127  git clone https://github.com/gopal1409/sonydocker.git
+  128  cd sonydocker/
+  129  ls
+  130  cd k8s
+  131  ls
+  132  kubectl apply -f pod.yml
+  133  kubectl get pod
+  134  kubectl describe pod nginx
+  135  history
+  136  clear
+  137  kubectl get pod
+  138  kubectl exec -it nginx -- /bin/bash
