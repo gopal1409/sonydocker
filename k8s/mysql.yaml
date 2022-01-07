@@ -1,17 +1,18 @@
-apiVersion: apps/v1 
-kind: Deployment 
+#kubectl apply -f mysql.deployment 
+apiVersion: apps/v1 #it will invoke this api
+kind: Deployment #then it will use the Deployment Object
 metadata:
-  name: mysql
-spec:
+  name: mysql #and create a deployment by the name as mysql
+spec: #this is the specification about my deployment
   replicas: 1 #it will deploy one single pod of mysql db
-  selector:
-    matchLabels:
-      app: mysql 
-  template:
+  selector: 
+    matchLabels: #all the 4 pod will have #this is like match expression
+      app: mysql #this is the label in key value format
+  template: #this template will be apply to all the 4 pod
     metadata:
       labels:
-        app: mysql 
-    spec:
+        app: mysql #same label i have put while creating this pod
+    spec: #this tempalte contains specification
       containers:
         - name: mysql 
           image: mysql:5.6
@@ -23,3 +24,30 @@ spec:
                   key: db-password
           ports:
             - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes: 
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: ebs-mysql-pv-claim
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
