@@ -3,4 +3,4 @@ kind: StorageClass
 metadata:
   name: ebs-sc-gopal #once you get the code change the name from gopal to your name
 provisioner: ebs.csi.aws.com
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: WaitForFirstConsumer #immediate #i cannot see the storage till i provision the pod or i have a runnign pod
