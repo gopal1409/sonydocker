@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce #ReadWriteMany #Read
-  storageClassnName: ebs-sc-gopal #this is the storage class name we got it from the storage class we created earlier
+  storageClassName: ebs-sc-gopal #this is the storage class name we got it from the storage class we created earlier
   resources:
     requests:
       storage: 4Gi #the max storage size will be 4Gi
