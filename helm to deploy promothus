@@ -1,0 +1,18 @@
+241  wget https://get.helm.sh/helm-v3.7.2-linux-amd64.tar.gz
+  242  tar -zxvf helm-v3.0.0-linux-amd64.tar.gz
+  243  tar -zxvf helm-v3.7.2-linux-amd64.tar.gz
+  244  cd linux-amd64/
+  245  helm
+  246  ls
+  247  ./helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  248  helm repo update
+  249  ./helm repo update
+  250  ./helm install monitoring prometheus-community/kube-prometheus-stack
+  251  kubectl --namespace default get pods -l "release=monitoring"
+  252  kubectl get svc
+  253  kubectl expose svc monitoring-kube-prometheus-prometheus --type=LoadBalancer
+  254  kubectl edit svc monitoring-kube-prometheus-prometheus
+  255  kubectl get svc
+  256  kubectl edit svc monitoring-kube-prometheus-prometheus
+  257  kubectl get svc
+  258  history
