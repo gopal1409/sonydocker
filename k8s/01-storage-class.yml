@@ -1,0 +1,6 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc-gopal #once you get the code change the name from gopal to your name
+  provisioner: ebs.csi.aws.com
+  volumeBindingMode: WaitForFirstConsumer

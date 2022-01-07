@@ -10,3 +10,22 @@
   136  clear
   137  kubectl get pod
   138  kubectl exec -it nginx -- /bin/bash
+  144  kubectl get pod -o wide
+  145  kubectl expose pod nginx --type=LoadBalancer --port=80 --name=my-first-service
+  146  kubectl get svc
+  147  git pull
+  148  kubectl apply -f pod.yml
+  149  kubectl expose pod nginx --type=LoadBalancer --port=80 --name=my-first-service
+  150  kubectl get svc
+  151  clear
+  152  kubectl get pod
+  153  kubectl get pod -o wide
+  154  kubectl get svc
+  155  kubectl describe svc my-first-service
+  156  kubectl get pod
+  157  kubectl delete pod nginx
+  158  kubectl describe svc my-first-service
+  159  kubectl get svc
+eksctl create nodegroup --region us-east-2 --cluster- my-cluster --name ng-windows --node-type=t2.large --nodes=2 --node-ami-family WindowsServer2019FullContainer
+
+

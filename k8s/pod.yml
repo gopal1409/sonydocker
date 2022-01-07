@@ -6,9 +6,19 @@ metadata:
   labels:
     app: nginx 
 spec: #inside the pod i want to deploy my image as container
+  affinity:
+    nodeAffinity:
+    requiredDuringSchedulingIgnoreDuringExecution:
+      nodeSelectorTerms
+      - matchExpressings:
+      - key: beta.kubernetes.io/arch
+        operator: in 
+        values:
+         - amd64
   containers:
   - name: nginx 
     image: stacksimplify/kubenginx:1.0.0 #which image it should use to deploy the container
     ports:
     - containerPort: 80 #
-  
+  nodeSelector:
+    kubernetes.io/os: windows
