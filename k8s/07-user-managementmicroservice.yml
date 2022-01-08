@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: usermgmt-microservice
+  labels: 
+    app: usermgmt-restapp 
+spec:
+  replicas: 2
+  selector:
+    matchlabels:
+      app: usermgmt-restapp 
+  template:
+    metadata:
+      labels:
+        app: usermgmt-restapp 
+    spec:
+      containers:
+        - name: usermgmt-restapp 
+          image: stacksimplify/kube-usermanagement-microservice:1.0.0
+          ports:
+            - containerPort: 8095
+          env:
+            - name: DB_HOSTNAME #this is the service name which i have define in mysql service
+              value: "mysql"
+            - name: DB_PORT
+              value: 3306
+            - name: DB_NAME 
+              value: "usermgmt"
+            - name: DB_USERNAME
+              value: "root"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-password
+                  key: db-password
+              
+      
