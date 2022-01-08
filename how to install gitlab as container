@@ -1,0 +1,13 @@
+export GITLAB_HOME=/srv/gitlab
+
+we will run gitlab as container engine.
+sudo docker run --detach \
+  --hostname ec2-18-224-173-249.us-east-2.compute.amazonaws.com \
+  --publish 443:443 --publish 80:80 --publish 2222:22 \
+  --name gitlab \
+  --restart always \
+  --volume $GITLAB_HOME/config:/etc/gitlab \
+  --volume $GITLAB_HOME/logs:/var/log/gitlab \
+  --volume $GITLAB_HOME/data:/var/opt/gitlab \
+  --shm-size 256m \
+  gitlab/gitlab-ee:latest
