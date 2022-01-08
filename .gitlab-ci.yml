@@ -17,7 +17,7 @@ publish:
     - pip install awscli
     - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
     - aws --version
-    -  docker info
+    - docker info
     - docker --version
   script:
     - docker build -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID .
