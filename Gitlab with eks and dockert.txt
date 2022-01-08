@@ -1,0 +1,424 @@
+https://aws.plainenglish.io/ci-cd-with-gitlab-kubernetes-eks-and-helm-a3667b0fb8ed
+sudo docker run --detach \
+  --hostname localhost \
+  --publish 443:443 --publish 80:80 --publish 22:22 \
+  --name gitlab \
+  --restart always \
+  --volume $GITLAB_HOME/config:/etc/gitlab \
+  --volume $GITLAB_HOME/logs:/var/log/gitlab \
+  --volume $GITLAB_HOME/data:/var/opt/gitlab \
+  --shm-size 256m \
+  gitlab/gitlab-ee:latest
+hR57YN7FRccXpimc3dX0iucNTFj50dpEC20ZnZHFPpU=
+https://techoverflow.net/2021/01/12/how-to-fix-gitlab-ci-error-during-connect-post-http-docker2375-v1-40-auth-dial-tcp-lookup-docker-on-no-such-host/
+
+deploy:
+  stage: deploy
+  image: gopal1409/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+    - helm upgrade flask-app ./flask-app --install --set deployment.image.tag=${CI_COMMIT_SHORT_SHA}
+  only:
+   - main
+
+image: docker:latest
+services:
+  - docker:dind
+stages:
+  - build
+  - deploy
+variables:
+  CONTAINER_TAG: ${CI_COMMIT_SHORT_SHA}
+  REPO_DOCKERHUB: filipemotta/flask-app
+build:
+  stage: build
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+  script:
+    - docker build -t ${REPO_DOCKERHUB}:${CONTAINER_TAG} .
+    - docker tag ${REPO_DOCKERHUB}:${CONTAINER_TAG} ${REPO_DOCKERHUB}:${CONTAINER_TAG}
+    - docker tag ${REPO_DOCKERHUB}:${CONTAINER_TAG} filipemotta/flask-app:latest
+    - docker push ${REPO_DOCKERHUB}:${CONTAINER_TAG}
+deploy:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+    - helm upgrade flask-app ./flask-app --install --set deployment.image.tag=${CI_COMMIT_SHORT_SHA}
+  only:
+   - main
+
+gitlab command
+root@ip-172-31-31-124:~# history
+    1  clear
+    2  apt-get update
+    3  apt-get install     ca-certificates     curl     gnupg     lsb-release
+    4  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    5  echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+    6    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    7  apt-get update
+    8  apt-get install docker-ce docker-ce-cli containerd.io -y
+    9  export GITLAB_HOME=/srv/gitlab
+   10  sudo docker run --detach   --hostname ec2-18-191-9-36.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 22:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+   11  docker ps
+   12  docker ps -a
+   13  docker container prune
+   14  sudo docker run --detach   --hostname ec2-18-191-9-36.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+   15  docker ps
+   16  sudo docker logs -f gitlab
+   17  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   18  docker volume create gitlab-runner-config
+   19  docker run -d --name gitlab-runner --restart always     -v /var/run/docker.sock:/var/run/docker.sock     -v gitlab-runner-config:/etc/gitlab-runner     gitlab/gitlab-runner:latest
+   20  docker ps
+   21  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   22  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+   23  curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+   24  echo "$(<kubectl.sha256)  kubectl" | sha256sum --check
+   25  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   26  unzip awscliv2.zip
+   27  sudo ./aws/install
+   28  apt install unzip
+   29  sudo ./aws/install
+   30  ls
+   31  unzip awscliv2.zip
+   32  sudo ./aws/install
+   33  aws --version
+   34  curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+   35  sudo mv /tmp/eksctl /usr/local/bin
+   36  eksctl
+   37  aws configure
+   38  eksctl create cluster --name=flask-app-demo --nodes=1 --node-type t3.small
+   39  kubectl
+   40  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+   41  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   42  sudo apt-get update
+   43  sudo apt-get install -y kubectl
+   44  kubectl get nodes
+   45  ls
+   46  cd CICD-gitlab-kubernetes-helm/
+   47  pwd
+   48  ls
+   49  cp -r * /root/k8sproject/
+   50  ls
+   51  cp -r flask-app/ /root/k8sproject/
+   52  cp -r k8s/ /root/k8sproject/
+   53  cp -r templates/ /root/k8sproject/
+   54  cd ..
+   55  ls
+   56  cd k8sproject/
+   57  ls
+   58  kubectl cluster-info
+   59  cat ~/.kube/config
+   60  kubectl get secret
+   61  kubectl describe secret gitlab-service-account-token-glstw
+   62  vi .gitlab-ci.yml
+   63  git push
+   64  git push origin master
+   65  ls
+   66  ls -la
+   67  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   68  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   69  docker ps
+   70  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   71  docker images
+   72  eksctl get cluster
+   73  eksctl delete cluster --name flask-app-demo
+   74  git clone https://github.com/filipemotta/CICD-gitlab-kubernetes-helm.git
+   75  ls
+   76  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/my-awsome-project.git
+   77  ssh-keygen -t rsa
+   78  cat /root/.ssh/id_rsa.pub
+   79  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/my-awsome-project.git
+   80  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git
+   81  cd /root/.ssh/
+   82  ls
+   83  cat known_hosts
+   84  cat authorized_keys
+   85  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git
+   86  docker ps
+   87  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git:2222
+   88  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   89  udo docker logs -f gitlab
+   90  sudo docker logs -f gitlab
+   91  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   92  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   93  rm k8sproject/
+   94  rm -rf k8sproject/
+   95  ls
+   96  cd /root
+   97  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   98  ls
+   99  cd k8sproject/
+  100  ls
+  101  cd k8s/
+  102  ls
+  103  kubectl apply -f git-lab-sa.yml
+  104  cd ..
+  105  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  106  git pull
+  107  git push
+  108  git add .
+  109  git commit -m "my first project"
+  110  git push
+  111  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  112  docker ps
+  113  dockerd955 --force
+  114  docker rm d95 --force
+  115  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 22:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  116  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  117  docker rm gitlab
+  118  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  119  docker ps
+  120  sudo docker logs -f gitlab
+  121  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  122  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+  123  docker ps
+  124  history
+  125  apt install unzip -y
+  126  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  127  aws configure
+  128  ssh-keygen -t rsa -b 2048 -C "gitlabkey"
+  129  cat /root/.ssh/id_rsa.pub
+  130  git clone git@ec2-13-59-237-198.us-east-2.compute.amazonaws.com:gitlab-instance-82fa07c7/Monitoring.git
+  131  ls
+  132  rm CICD-gitlab-kubernetes-helm/
+  133  rm -rf CICD-gitlab-kubernetes-helm/
+  134  git clone https://github.com/filipemotta/CICD-gitlab-kubernetes-helm.git
+  135  cd CICD-gitlab-kubernetes-helm/
+  136  git init --initial-branch=main
+  137  rm -rf .git
+  138  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  139  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  140  git init
+  141  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  142  git add .
+  143  git commit -m "Initial commit"
+  144  git push -u origin main
+  145  git push
+  146  git branch
+  147  git init --initial-branch=main
+  148  rm -rf .git
+  149  git init --initial-branch=main
+  150  git status
+  151  git init -b main
+  152  git config --global init.defaultBranch main
+  153  git status
+  154  git init
+  155  git branch
+  156  git status
+  157  git add .
+  158  git commit -m "intial commit"
+  159  git status
+  160  git branch -M main
+  161  git status
+  162  git log
+  163  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  164  git push
+  165  git push --set-upstream origin main
+  166  git status
+  167  ls
+  168  cat Dockerfile
+  169  docker build -t gopal1409/flask-app:latest .
+  170  docker images
+  171  docker pull ruby
+  172  docker images
+  173  sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+  174  docker ps
+  175  gitlab-runner
+  176  apt install gitlab-runner
+  177  sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+  178  sudo gitlab-runner register --url https://gitlab.com/ --registration-token vTWHsc4KSsXGwiSehgMT
+  179  gitlab-trace
+  180  docker ps
+  181  history
+root@ip-172-31-31-124:~# history
+    1  clear
+    2  apt-get update
+    3  apt-get install     ca-certificates     curl     gnupg     lsb-release
+    4  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    5  echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+    6    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    7  apt-get update
+    8  apt-get install docker-ce docker-ce-cli containerd.io -y
+    9  export GITLAB_HOME=/srv/gitlab
+   10  sudo docker run --detach   --hostname ec2-18-191-9-36.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 22:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+   11  docker ps
+   12  docker ps -a
+   13  docker container prune
+   14  sudo docker run --detach   --hostname ec2-18-191-9-36.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+   15  docker ps
+   16  sudo docker logs -f gitlab
+   17  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   18  docker volume create gitlab-runner-config
+   19  docker run -d --name gitlab-runner --restart always     -v /var/run/docker.sock:/var/run/docker.sock     -v gitlab-runner-config:/etc/gitlab-runner     gitlab/gitlab-runner:latest
+   20  docker ps
+   21  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   22  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+   23  curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+   24  echo "$(<kubectl.sha256)  kubectl" | sha256sum --check
+   25  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   26  unzip awscliv2.zip
+   27  sudo ./aws/install
+   28  apt install unzip
+   29  sudo ./aws/install
+   30  ls
+   31  unzip awscliv2.zip
+   32  sudo ./aws/install
+   33  aws --version
+   34  curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+   35  sudo mv /tmp/eksctl /usr/local/bin
+   36  eksctl
+   37  aws configure
+   38  eksctl create cluster --name=flask-app-demo --nodes=1 --node-type t3.small
+   39  kubectl
+   40  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+   41  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+   42  sudo apt-get update
+   43  sudo apt-get install -y kubectl
+   44  kubectl get nodes
+   45  ls
+   46  cd CICD-gitlab-kubernetes-helm/
+   47  pwd
+   48  ls
+   49  cp -r * /root/k8sproject/
+   50  ls
+   51  cp -r flask-app/ /root/k8sproject/
+   52  cp -r k8s/ /root/k8sproject/
+   53  cp -r templates/ /root/k8sproject/
+   54  cd ..
+   55  ls
+   56  cd k8sproject/
+   57  ls
+   58  kubectl cluster-info
+   59  cat ~/.kube/config
+   60  kubectl get secret
+   61  kubectl describe secret gitlab-service-account-token-glstw
+   62  vi .gitlab-ci.yml
+   63  git push
+   64  git push origin master
+   65  ls
+   66  ls -la
+   67  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   68  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   69  docker ps
+   70  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+   71  docker images
+   72  eksctl get cluster
+   73  eksctl delete cluster --name flask-app-demo
+   74  git clone https://github.com/filipemotta/CICD-gitlab-kubernetes-helm.git
+   75  ls
+   76  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/my-awsome-project.git
+   77  ssh-keygen -t rsa
+   78  cat /root/.ssh/id_rsa.pub
+   79  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/my-awsome-project.git
+   80  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git
+   81  cd /root/.ssh/
+   82  ls
+   83  cat known_hosts
+   84  cat authorized_keys
+   85  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git
+   86  docker ps
+   87  git clone git@ec2-18-191-9-36.us-east-2.compute.amazonaws.com:root/k8sproject.git:2222
+   88  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   89  udo docker logs -f gitlab
+   90  sudo docker logs -f gitlab
+   91  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+   92  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   93  rm k8sproject/
+   94  rm -rf k8sproject/
+   95  ls
+   96  cd /root
+   97  git clone http://ec2-18-191-9-36.us-east-2.compute.amazonaws.com/root/k8sproject.git
+   98  ls
+   99  cd k8sproject/
+  100  ls
+  101  cd k8s/
+  102  ls
+  103  kubectl apply -f git-lab-sa.yml
+  104  cd ..
+  105  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  106  git pull
+  107  git push
+  108  git add .
+  109  git commit -m "my first project"
+  110  git push
+  111  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  112  docker ps
+  113  dockerd955 --force
+  114  docker rm d95 --force
+  115  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 22:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  116  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  117  docker rm gitlab
+  118  sudo docker run --detach   --hostname ec2-13-59-237-198.us-east-2.compute.amazonaws.com   --publish 443:443 --publish 80:80 --publish 2222:22   --name gitlab   --restart always   --volume $GITLAB_HOME/config:/etc/gitlab   --volume $GITLAB_HOME/logs:/var/log/gitlab   --volume $GITLAB_HOME/data:/var/opt/gitlab   --shm-size 256m   gitlab/gitlab-ee:latest
+  119  docker ps
+  120  sudo docker logs -f gitlab
+  121  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  122  docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+  123  docker ps
+  124  history
+  125  apt install unzip -y
+  126  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  127  aws configure
+  128  ssh-keygen -t rsa -b 2048 -C "gitlabkey"
+  129  cat /root/.ssh/id_rsa.pub
+  130  git clone git@ec2-13-59-237-198.us-east-2.compute.amazonaws.com:gitlab-instance-82fa07c7/Monitoring.git
+  131  ls
+  132  rm CICD-gitlab-kubernetes-helm/
+  133  rm -rf CICD-gitlab-kubernetes-helm/
+  134  git clone https://github.com/filipemotta/CICD-gitlab-kubernetes-helm.git
+  135  cd CICD-gitlab-kubernetes-helm/
+  136  git init --initial-branch=main
+  137  rm -rf .git
+  138  sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+  139  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  140  git init
+  141  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  142  git add .
+  143  git commit -m "Initial commit"
+  144  git push -u origin main
+  145  git push
+  146  git branch
+  147  git init --initial-branch=main
+  148  rm -rf .git
+  149  git init --initial-branch=main
+  150  git status
+  151  git init -b main
+  152  git config --global init.defaultBranch main
+  153  git status
+  154  git init
+  155  git branch
+  156  git status
+  157  git add .
+  158  git commit -m "intial commit"
+  159  git status
+  160  git branch -M main
+  161  git status
+  162  git log
+  163  git remote add origin http://ec2-13-59-237-198.us-east-2.compute.amazonaws.com/gitlab-instance-82fa07c7/Monitoring.git
+  164  git push
+  165  git push --set-upstream origin main
+  166  git status
+  167  ls
+  168  cat Dockerfile
+  169  docker build -t gopal1409/flask-app:latest .
+  170  docker images
+  171  docker pull ruby
+  172  docker images
+  173  sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+  174  docker ps
+  175  gitlab-runner
+  176  apt install gitlab-runner
+  177  sudo gitlab-runner register --url https://gitlab.com/ --registration-token $REGISTRATION_TOKEN
+  178  sudo gitlab-runner register --url https://gitlab.com/ --registration-token vTWHsc4KSsXGwiSehgMT
+  179  gitlab-trace
+  180  docker ps
+  181  history
+root@ip-172-31-31-124:~#

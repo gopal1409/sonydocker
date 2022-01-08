@@ -1,0 +1,92 @@
+root@ip-172-31-28-64:~/ecrintegration# history
+    1  docker ps
+    2  docker exec -it 2da bash
+    3  ls
+    4  cd ecrintegration/
+    5  ls
+    6  vi .gitlab-ci.yml
+    7  git add .
+    8  git commit -m "docker buiuld"
+    9  git push
+   10  vi .gitlab-ci.yml
+   11  git add .
+   12  git commit -m "docker buiuld"
+   13  git push
+   14  vi .gitlab-ci.yml
+   15  git add .
+   16  git commit -m "docker buiuld"
+   17  git push
+   18  vi .gitlab-ci.yml
+   19  git add .
+   20  git commit -m "docker buiuld"
+   21  git push
+   22  aws configure
+   23  vi .gitlab-ci.yml
+   24  docker run -d --name=dindy --privileged docker:dind
+   25  vi .gitlab-ci.yml
+   26  sudo usermod -aG docker gitlab-runner
+   27  vi .gitlab-ci.yml
+   28  git add .
+   29  git commit -m "docker buikld"
+   30  git push
+   31  docker ps
+   32  vi .gitlab-ci.yml
+   33  git add .
+   34  git commit -m "docker b uild"
+   35  git push
+   36  vi .gitlab-ci.yml
+   37  git add .
+   38  git commit -m "docker b uild"
+   39  git push
+   40  error during connect: Post "http://docker:2375/v1.24/auth"aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 384221790116.dkr.ecr.us-east-2.amazonaws.com
+   41  aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 384221790116.dkr.ecr.us-east-2.amazonaws.com
+   42  ls
+   43  docker ps
+   44  docker docker rm 2da --force
+   45  docker rm 2da --force
+   46  docker ps
+   47  docker rm eb6 --force
+   48  # Download the binary for your system
+   49  sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+   50  # Give it permissions to execute
+   51  sudo chmod +x /usr/local/bin/gitlab-runner
+   52  # Create a GitLab CI user
+   53  sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+   54  # Install and run as service
+   55  sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+   56  sudo gitlab-runner start
+   57  sudo gitlab-runner register --url http://ec2-18-216-194-49.us-east-2.compute.amazonaws.com/ --registration-token sn-4Yzs5wcbPjF2kY8nE
+   58  docker ps
+   59  cd /etc
+   60  ls git
+   61  ls git*.*
+   62  ls conf
+   63  ls conf*.*
+   64  ls git*
+   65  vi config.toml
+   66  cd gilabrunner
+   67  ls git
+   68  ls git*
+   69  cd git
+   70  ls
+   71  cd gitlab-runner/
+   72  ls
+   73  vi config.toml
+   74  gitlab-runner restart
+   75  gitlab-runner status
+   76  cd /root
+   77  ls
+   78  cd ecrintegration/
+   79  ls
+   80  vi .gitlab-ci.yml
+   81  git add .
+   82  git commit -m "gitlab"
+   83  git push
+   84  vi .gitlab-ci.yml
+   85  vi # Simple example of CI to build a Docker container and push it to Amazon ECR
+   86  vi .gitlab-ci.yml
+   87  git add .
+   88  git commit -m "test"
+   89  git push
+   90  history
+root@ip-172-31-28-64:~/ecrintegration#
