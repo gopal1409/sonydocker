@@ -1,0 +1,13 @@
+ 337  cd k8sproject/
+  338  ls
+  339  mkdir website
+  340  vi dockerfile
+  341  cd website/
+  342  vi index.html
+  
+  343  cd ..
+  344  vi dockerfile
+  
+  
+  FROM nginx:alpine
+  COPY ./website /usr/share/nginx/html
