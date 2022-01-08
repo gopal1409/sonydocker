@@ -7,5 +7,5 @@ spec:
     app: mysql1 #provide the label which i have define in my mysql deployment
     # we called this as label and it is in the format of key value
   ports:
-    - ports: 3306 
+    - port: 3306 
   clusterIP: None #this means we are going to use Pod IP
