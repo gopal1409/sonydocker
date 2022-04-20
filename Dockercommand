@@ -1,0 +1,3 @@
+ 347  docker container run --publish 80:80 --detach nginx
+  348  docker ps
+  349  docker images
